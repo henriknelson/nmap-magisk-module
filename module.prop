@@ -1,6 +1,6 @@
 id=nmap-nelshh
 name=Nmap for Android
 version=v7.80
-versionCode=2
+versionCode=6
 author=nelshh
 description=A statically built version of Nmap for android (aarch64)

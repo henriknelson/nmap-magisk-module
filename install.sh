@@ -31,7 +31,7 @@ PROPFILE=false
 POSTFSDATA=false
 
 # Set to true if you need late_start service script
-LATESTARTSERVICE=true
+LATESTARTSERVICE=false
 
 ##########################################################################################
 # Replace list
@@ -143,21 +143,32 @@ set_permissions() {
   ui_print "[3/6] Installing to /system/bin..";
   chown -R 0:0 $MODPATH/system/bin;
   chmod -R 755 $MODPATH/system/bin;
-  find $MODPATH/system/bin -type f -exec chmod 755 {} +;
-  find $MODPATH/system/bin -type l -exec chmod 755 {} +;
+  find $MODPATH/system/bin -type f -exec chmod 755 {} \+;
+  find $MODPATH/system/bin -type l -exec chmod 755 {} \+;
 
   ui_print "[4/6] Installing to /system/etc..";
   chown -R 0:0 $MODPATH/system/etc;
   chmod -R 755 $MODPATH/system/etc;
-  find $MODPATH/system/etc -type d -exec chmod 755 {} +;
-  find $MODPATH/system/etc -type f -exec chmod 644 {} +;
+  find $MODPATH/system/etc -type d -exec chmod 755 {} \+;
+  find $MODPATH/system/etc -type f -exec chmod 644 {} \+;
 
 
   ui_print "[5/6] Installing to /system/usr/share..";
   chown -R 0:0 $MODPATH/system/usr/share;
   chmod -R 755 $MODPATH/system/usr/share;
-  find $MODPATH/system/usr/share -type d -exec chmod 755 {} +;
-  find $MODPATH/system/usr/share -type f -exec chmod 644 {} +;
+  find $MODPATH/system/usr/share -type d -exec chmod 755 {} \+;
+  find $MODPATH/system/usr/share -type f -exec chmod 755 {} \+;
+
+  mkdir -p /data/man;
+  cp -r $MODPATH/custom/man/* /data/man/;
+  chmod -R 664 /data/man;
+  chown -R 0:0 /data/man;
+  find /data/man -type d -exec chmod 755 {} \+;
+  find /data/man -type f -exec chmod 664 {} \+;
+  if [[ -s "/system/bin/mandoc" ]]; then
+     makewhatis /data/man;
+  fi
+
 
   ui_print "[5/6] Installation finished";
 }
