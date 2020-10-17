@@ -1,2 +1,1 @@
-*.1 linguist-language=Shell
-*.lua linguist-language=Shell
+*.* linguist-language=Shell
